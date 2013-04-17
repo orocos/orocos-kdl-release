@@ -9,9 +9,10 @@ tracks:
     - git-bloom-generate -y rosdebian --prefix release/:{ros_distro} :{ros_distro}
       -i :{release_inc}
     devel_branch: null
+    last_version: v1.1.99
     name: orocos-kinematics-dynamics
     patches: null
-    release_inc: -1
+    release_inc: '0'
     release_tag: :{version}
     ros_distro: hydro
     vcs_type: git
