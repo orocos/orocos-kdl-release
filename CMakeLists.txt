@@ -1,17 +1,27 @@
 cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
-# Append to CPACK_SOURCE_IGNORE_FILES a semicolon-separated list of
-# directories (or patterns, but directories should suffice) that should
-# be excluded from the distro.  This is not the place to put things that
-# should be ignored everywhere, like "build" directories; that happens in
-# rosbuild/rosbuild.cmake.  Here should be listed packages that aren't
-# ready for inclusion in a distro.
-#
-# This list is combined with the list in rosbuild/rosbuild.cmake.  Note
-# that CMake 2.6 may be required to ensure that the two lists are combined
-# properly.  CMake 2.4 seems to have unpredictable scoping rules for such
-# variables.
-#list(APPEND CPACK_SOURCE_IGNORE_FILES /core/experimental)
+project(python-orocos-kdl)
 
-rosbuild_make_distribution(0.2.3)
+find_package(Orocos-KDL)
+include_directories(${Orocos-KDL_INCLUDE_DIRS})
+link_directories(${Orocos-KDL_LIBRARY_DIRS})
+
+find_package(PythonInterp REQUIRED)
+find_package(PythonLibs REQUIRED)
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+find_package(SIP REQUIRED)
+include(SIPMacros)
+
+include_directories(${SIP_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
+
+file(GLOB SIP_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.sip")
+set(SIP_INCLUDES ${SIP_FILES})
+set(SIP_EXTRA_OPTIONS "-o")
+set(PYTHON_PACKAGES_DIR_NAME "")
+set(PYTHON_PACKAGES_DIR_NAME "dist-packages")
+set(PYTHON_SITE_PACKAGES_INSTALL_DIR
+${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/${PYTHON_PACKAGES_DIR_NAME}
+ CACHE PATH "The directory where python modules will be installed to.")
+add_sip_python_module(PyKDL PyKDL/PyKDL.sip orocos-kdl)
+
+install(FILES package.xml DESTINATION share/python-orocos-kdl)
