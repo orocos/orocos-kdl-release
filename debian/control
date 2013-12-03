@@ -1,0 +1,12 @@
+Source: ros-hydro-orocos-kdl
+Section: misc
+Priority: extra
+Maintainer: Ruben Smits <ruben@intermodalics.eu>
+Build-Depends: debhelper (>= 7.0.50~), cmake, libeigen3-dev
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-hydro-orocos-kdl
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libeigen3-dev, pkg-config, ros-hydro-catkin
+Description: This package contains a recent version of the Kinematics and Dynamics Library (KDL), distributed by the Orocos Project.
