@@ -13,8 +13,9 @@ tracks:
     name: orocos-kinematics-dynamics
     patches: null
     release_inc: '0'
-    release_tag: :{version}
+    release_repo_url: null
+    release_tag: :{ask}
     ros_distro: hydro
     vcs_type: git
-    vcs_uri: https://rsmits@git.mech.kuleuven.be/robotics/orocos_kinematics_dynamics.git
+    vcs_uri: https://github.com/orocos/orocos_kinematics_dynamics.git
     version: :{ask}
