@@ -23,6 +23,7 @@ class Joint{
 
 %TypeHeaderCode
 #include <kdl/joint.hpp>
+#include <kdl/kinfam_io.hpp>
 using namespace KDL;
 %End
 
@@ -49,12 +50,12 @@ public:
     JointType getType() const;
     std::string getTypeName() const;
     const char* __repr__();
-%MethodCode
-    std::ostringstream oss;
-    oss<<(*sipCpp);
-    std::string s(oss.str());
-    sipRes=s.c_str();
-%End
+    %MethodCode
+        std::ostringstream oss;
+        oss<<(*sipCpp);
+        std::string s(oss.str());
+        sipRes=s.c_str();
+    %End
 };
 
 class RotationalInertia
@@ -487,6 +488,47 @@ public:
     void setLambda(const double& lambda);
 
 };
+
+
+class ChainIkSolverPos_LMA : ChainIkSolverPos
+{
+%TypeHeaderCode
+#include <kdl/chainiksolverpos_lma.hpp>
+using namespace KDL;
+%End
+public:
+    ChainIkSolverPos_LMA(const Chain& chain, double eps=0.00001, int _maxiter=500, double _eps_joints=0.000000000000001);
+
+    virtual int CartToJnt(const JntArray& q_init , const Frame& p_in ,JntArray& q_out);
+};
+
+
+class ChainIkSolverVel_pinv_nso : ChainIkSolverVel
+{
+%TypeHeaderCode
+#include <kdl/chainiksolvervel_pinv_nso.hpp>
+using namespace KDL;
+%End
+public:
+    ChainIkSolverVel_pinv_nso(const Chain& chain,double eps=0.00001,int maxiter=150, double alpha=0.25);
+        
+    virtual int CartToJnt(const JntArray& q_in, const Twist& v_in, JntArray& qdot_out);
+};
+
+class ChainIkSolverVel_pinv_givens : ChainIkSolverVel
+{
+%TypeHeaderCode
+#include <kdl/chainiksolvervel_pinv_givens.hpp>
+using namespace KDL;
+%End
+public:
+    ChainIkSolverVel_pinv_givens(const Chain& chain);
+        
+    virtual int CartToJnt(const JntArray& q_in, const Twist& v_in, JntArray& qdot_out);
+
+};
+
+
 
 class ChainJntToJacSolver
 {
