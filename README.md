@@ -1,3 +1,24 @@
+## orocos_kdl - 1.2.2-0
+
+User `rsmits@im-desktop-01` released the packages in the `orocos_kdl` repository by running `/usr/bin/bloom-release -t hydro -r hydro orocos_kdl` on `Mon, 17 Feb 2014 13:59:56 -0000`
+
+These packages were released:
+- `orocos_kdl`
+- `python_orocos_kdl`
+
+Version of package(s) in repository `orocos_kdl`:
+- rosdistro version: `1.2.1-0`
+- old version: `1.2.1-0`
+- new version: `1.2.2-0`
+
+Versions of tools used:
+- bloom version: `0.4.9`
+- catkin_pkg version: `0.1.26`
+- rosdep version: `0.10.25`
+- rosdistro version: `0.3.4`
+- vcstools version: `0.1.33`
+
+
 ## orocos_kdl - 1.2.1-0
 
 User `rsmits@im-desktop-01` released the packages in the `orocos_kdl` repository by running `/usr/bin/bloom-release -t hydro -r hydro orocos_kdl` on `Mon, 09 Dec 2013 08:21:22 -0000`
