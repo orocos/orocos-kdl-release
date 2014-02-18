@@ -1,3 +1,24 @@
+## orocos_kinematics_dynamics - 1.2.2-1
+
+User `rsmits@im-desktop-01` released the packages in the `orocos_kinematics_dynamics` repository by running `/usr/bin/bloom-release -t indigo -r indigo orocos_kinematics_dynamics --edit` on `Tue, 18 Feb 2014 12:10:42 -0000`
+
+These packages were released:
+- `orocos_kdl`
+- `python_orocos_kdl`
+
+Version of package(s) in repository `orocos_kinematics_dynamics`:
+- rosdistro version: `null`
+- old version: `1.2.2-0`
+- new version: `1.2.2-1`
+
+Versions of tools used:
+- bloom version: `0.4.9`
+- catkin_pkg version: `0.1.26`
+- rosdep version: `0.10.25`
+- rosdistro version: `0.3.4`
+- vcstools version: `0.1.33`
+
+
 ## orocos_kdl - 1.2.2-0
 
 User `rsmits@im-desktop-01` released the packages in the `orocos_kdl` repository by running `/usr/bin/bloom-release -t indigo -r indigo orocos_kdl --edit` on `Tue, 18 Feb 2014 12:08:51 -0000`
