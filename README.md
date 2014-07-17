@@ -1,3 +1,25 @@
+## orocos_kinematics_dynamics (hydro) - 1.3.0-0
+
+The packages in the `orocos_kinematics_dynamics` repository were released into the `hydro` distro by running `/usr/bin/bloom-release -t hydro -r hydro orocos_kinematics_dynamics` on `Thu, 17 Jul 2014 07:03:54 -0000`
+
+These packages were released:
+- `orocos_kdl`
+- `orocos_kinematics_dynamics`
+- `python_orocos_kdl`
+
+Version of package(s) in repository `orocos_kinematics_dynamics`:
+- rosdistro version: `1.2.2-0`
+- old version: `1.2.2-0`
+- new version: `1.3.0-0`
+
+Versions of tools used:
+- bloom version: `0.5.10`
+- catkin_pkg version: `0.2.3`
+- rosdep version: `0.10.28`
+- rosdistro version: `0.3.5`
+- vcstools version: `0.1.35`
+
+
 ## orocos_kinematics_dynamics (indigo) - 1.2.2-2
 
 The packages in the `orocos_kinematics_dynamics` repository were released into the `indigo` distro by running `/usr/bin/bloom-release orocos_kinematics_dynamics -t indigo -r indigo` on `Thu, 22 May 2014 20:09:19 -0000`
