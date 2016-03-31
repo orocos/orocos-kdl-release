@@ -1,3 +1,29 @@
+## orocos_kinematics_dynamics (kinetic) - 1.3.0-0
+
+The packages in the `orocos_kinematics_dynamics` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release orocos_kinematics_dynamics -t kinetic -r kinetic --new-track` on `Thu, 31 Mar 2016 20:32:13 -0000`
+
+These packages were released:
+- `orocos_kdl`
+- `orocos_kinematics_dynamics`
+- `python_orocos_kdl`
+
+Version of package(s) in repository `orocos_kinematics_dynamics`:
+
+- upstream repository: https://github.com/orocos/orocos_kinematics_dynamics.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `1.3.0-0`
+
+Versions of tools used:
+
+- bloom version: `0.5.21`
+- catkin_pkg version: `0.2.10`
+- rosdep version: `0.11.4`
+- rosdistro version: `0.4.5`
+- vcstools version: `0.1.38`
+
+
 ## orocos_kinematics_dynamics (jade) - 1.3.0-0
 
 The packages in the `orocos_kinematics_dynamics` repository were released into the `jade` distro by running `/usr/bin/bloom-release orocos_kinematics_dynamics --track jade --rosdistro jade --new-track` on `Tue, 13 Jan 2015 10:37:28 -0000`
