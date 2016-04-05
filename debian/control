@@ -1,0 +1,13 @@
+Source: ros-indigo-orocos-kinematics-dynamics
+Section: misc
+Priority: extra
+Maintainer: Orocos Developers <orocos-dev@lists.mech.kuleuven.be>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-catkin
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-orocos-kinematics-dynamics
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-orocos-kdl, ros-indigo-python-orocos-kdl
+Description: This package depends on a recent version of the Kinematics and Dynamics Library (KDL), distributed by the Orocos Project.
+ It is a meta-package that depends on kdl which contains the c++ version and pykdl which contains the generated python bindings.
