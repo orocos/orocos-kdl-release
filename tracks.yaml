@@ -27,13 +27,17 @@ tracks:
       --replace
     - git-bloom-generate -y rosrelease :{ros_distro} --source upstream -i :{release_inc}
     - git-bloom-generate -y rosdebian --prefix release/:{ros_distro} :{ros_distro}
-      -i :{release_inc}
+      -i :{release_inc} --os-name ubuntu
+    - git-bloom-generate -y rosdebian --prefix release/:{ros_distro} :{ros_distro}
+      -i :{release_inc} --os-name debian --os-not-required
+    - git-bloom-generate -y rosrpm --prefix release/:{ros_distro} :{ros_distro} -i
+      :{release_inc}
     devel_branch: null
     last_version: 1.3.0
     name: orocos-kinematics-dynamics
     patches: null
     release_inc: '0'
-    release_repo_url: null
+    release_repo_url: git@github.com:orocos/orocos-kdl-release.git
     release_tag: :{ask}
     ros_distro: indigo
     vcs_type: git
