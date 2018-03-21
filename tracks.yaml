@@ -85,7 +85,7 @@ tracks:
     name: orocos-kinematics-dynamics
     patches: null
     release_inc: '0'
-    release_repo_url: git@github.com:smits/orocos-kdl-release.git
+    release_repo_url: git@github.com:orocos/orocos-kdl-release.git
     release_tag: :{ask}
     ros_distro: kinetic
     vcs_type: git
@@ -109,7 +109,7 @@ tracks:
     name: orocos-kinematics-dynamics
     patches: null
     release_inc: '0'
-    release_repo_url: git@github.com:smits/orocos-kdl-release.git
+    release_repo_url: git@github.com:orocos/orocos-kdl-release.git
     release_tag: :{ask}
     ros_distro: lunar
     vcs_type: git
