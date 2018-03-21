@@ -1,3 +1,29 @@
+## orocos_kinematics_dynamics (melodic) - 1.4.0-0
+
+The packages in the `orocos_kinematics_dynamics` repository were released into the `melodic` distro by running `/usr/local/bin/bloom-release --rosdistro melodic orocos_kinematics_dynamics --track melodic` on `Wed, 21 Mar 2018 21:41:44 -0000`
+
+These packages were released:
+- `orocos_kdl`
+- `orocos_kinematics_dynamics`
+- `python_orocos_kdl`
+
+Version of package(s) in repository `orocos_kinematics_dynamics`:
+
+- upstream repository: https://github.com/orocos/orocos_kinematics_dynamics.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `1.4.0-0`
+
+Versions of tools used:
+
+- bloom version: `0.6.4`
+- catkin_pkg version: `0.4.1`
+- rosdep version: `0.12.1`
+- rosdistro version: `0.6.8`
+- vcstools version: `0.1.40`
+
+
 ## orocos_kinematics_dynamics (lunar) - 1.3.1-0
 
 The packages in the `orocos_kinematics_dynamics` repository were released into the `lunar` distro by running `/usr/bin/bloom-release orocos_kinematics_dynamics -t lunar -r lunar` on `Tue, 28 Mar 2017 21:34:21 -0000`
