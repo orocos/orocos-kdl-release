@@ -31,11 +31,24 @@ namespace KDL{
         ag=-Twist(grav,Vector::Zero());
     }
 
+    void ChainIdSolver_RNE::updateInternalDataStructures() {
+        nj = chain.getNrOfJoints();
+        ns = chain.getNrOfSegments();
+        X.resize(ns);
+        S.resize(ns);
+        v.resize(ns);
+        a.resize(ns);
+        f.resize(ns);
+    }
+
     int ChainIdSolver_RNE::CartToJnt(const JntArray &q, const JntArray &q_dot, const JntArray &q_dotdot, const Wrenches& f_ext,JntArray &torques)
     {
+        if(nj != chain.getNrOfJoints() || ns != chain.getNrOfSegments())
+            return (error = E_NOT_UP_TO_DATE);
+
         //Check sizes when in debug mode
         if(q.rows()!=nj || q_dot.rows()!=nj || q_dotdot.rows()!=nj || torques.rows()!=nj || f_ext.size()!=ns)
-            return -1;
+            return (error = E_SIZE_MISMATCH);
         unsigned int j=0;
 
         //Sweep from root to leaf
@@ -79,6 +92,6 @@ namespace KDL{
             if(i!=0)
                 f[i-1]=f[i-1]+X[i]*f[i];
         }
-	return 0;
+	return (error = E_NOERROR);
     }
 }//namespace

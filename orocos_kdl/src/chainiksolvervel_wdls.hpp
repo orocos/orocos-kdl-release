@@ -63,7 +63,6 @@ namespace KDL
     class ChainIkSolverVel_wdls : public ChainIkSolverVel
     {
     public:
-        static const int E_SVD_FAILED = -100; //! SVD solver failed
         /// solution converged but (pseudo)inverse is singular
         static const int E_CONVERGE_PINV_SINGULAR = +100;
 
@@ -108,7 +107,7 @@ namespace KDL
         /**
          * Set the joint space weighting matrix
          *
-         * @param weight_js joint space weighting symetric matrix,
+         * @param weight_js joint space weighting symmetric matrix,
          * default : identity.  M_q : This matrix being used as a
          * weight for the norm of the joint space speed it HAS TO BE
          * symmetric and positive definite. We can actually deal with
@@ -126,13 +125,15 @@ namespace KDL
          * motion of the system and this is equivalent to saying that
          * it gets an infinite weight in the norm computation.  For
          * more detailed explanation : vincent.padois@upmc.fr
+         *
+         * @return success/error code
          */
-        void setWeightJS(const Eigen::MatrixXd& Mq);
+        int setWeightJS(const Eigen::MatrixXd& Mq);
 
         /**
          * Set the task space weighting matrix
          *
-         * @param weight_ts task space weighting symetric matrix,
+         * @param weight_ts task space weighting symmetric matrix,
          * default: identity M_x : This matrix being used as a weight
          * for the norm of the error (in terms of task space speed) it
          * HAS TO BE symmetric and positive definite. We can actually
@@ -151,8 +152,10 @@ namespace KDL
          * will be reduced). The obtained solution will minimize the
          * weighted norm sqrt(|x_dot-Jq_dot|'*(M_x^2)*|x_dot-Jq_dot|).
          * For more detailed explanation : vincent.padois@upmc.fr
+         *
+         * @return success/error code
          */
-        void setWeightTS(const Eigen::MatrixXd& Mx);
+        int setWeightTS(const Eigen::MatrixXd& Mx);
 
         /**
          * Set lambda
@@ -180,6 +183,16 @@ namespace KDL
         double getSigmaMin()const {return sigmaMin;};
 
         /**
+         * Request the six singular values of the Jacobian
+         */
+        int getSigma(Eigen::VectorXd& Sout);
+
+        /**
+         * Request the value of eps
+         */
+        double getEps()const {return eps;};
+
+        /**
          * Request the value of lambda for the minimum
          */
         double getLambda()const {return lambda;};
@@ -199,9 +212,13 @@ namespace KDL
         /// @copydoc KDL::SolverI::strError()
         virtual const char* strError(const int error) const;
 
+        /// @copydoc KDL::SolverI::updateInternalDataStructures()
+        virtual void updateInternalDataStructures();
+
     private:
-        const Chain chain;
+        const Chain& chain;
         ChainJntToJacSolver jnt2jac;
+        unsigned int nj;
         Jacobian jac;
         Eigen::MatrixXd U;
         Eigen::VectorXd S;

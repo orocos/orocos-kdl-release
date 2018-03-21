@@ -92,7 +92,19 @@ public:
     //! Failed to converge
         E_NO_CONVERGE      = -1,
     //! Undefined value (e.g. computed a NAN, or tan(90 degrees) )
-        E_UNDEFINED        = -2
+        E_UNDEFINED        = -2,
+    //! Chain size changed
+        E_NOT_UP_TO_DATE = -3,
+    //! Input size does not match internal state
+        E_SIZE_MISMATCH = -4,
+    //! Maximum number of iterations exceeded
+        E_MAX_ITERATIONS_EXCEEDED = -5,
+    //! Requested index out of range
+        E_OUT_OF_RANGE = -6,
+    //! Not yet implemented
+        E_NOT_IMPLEMENTED = -7,
+    //! Internal svd calculation failed
+        E_SVD_FAILED = -8
     };
 
 	/// Initialize latest error to E_NOERROR
@@ -114,8 +126,23 @@ public:
 	{
 		if (E_NOERROR == error) return "No error";
 		else if (E_NO_CONVERGE == error) return "Failed to converge";
+		else if (E_UNDEFINED == error) return "Undefined value";
+		else if (E_DEGRADED == error) return "Converged but degraded solution";
+		else if (E_NOT_UP_TO_DATE == error) return "Internal data structures not up to date with Chain";
+		else if (E_SIZE_MISMATCH == error) return "The size of the input does not match the internal state";
+		else if (E_MAX_ITERATIONS_EXCEEDED == error) return "The maximum number of iterations is exceeded";
+		else if (E_OUT_OF_RANGE == error) return "The requested index is out of range";
+		else if (E_NOT_IMPLEMENTED == error) return "The requested function is not yet implemented";
+		else  if (E_SVD_FAILED == error) return "SVD failed";
 		else return "UNKNOWN ERROR";
 	}
+
+	/**
+	 * Update the internal data structures. This is required if the number
+	 * of segments or number of joints of a chain/tree have changed.
+	 * This provides a single point of contact for solver memory allocations.
+	 */
+	virtual void updateInternalDataStructures() = 0;
 
 protected:
 	/// Latest error, initialized to E_NOERROR in constructor

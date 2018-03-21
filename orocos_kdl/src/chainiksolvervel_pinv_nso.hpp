@@ -24,7 +24,7 @@
 
 #include "chainiksolver.hpp"
 #include "chainjnttojacsolver.hpp"
-#include "utilities/svd_HH.hpp"
+#include <Eigen/Core>
 
 namespace KDL
 {
@@ -35,10 +35,10 @@ namespace KDL
      * KDL::Chain. It uses a svd-calculation based on householders
      * rotations.
      *
-     * In case of a redundant robot this solver optimizes the the following criterium:
+     * In case of a redundant robot this solver optimizes the following criterium:
      * g=0.5*sum(weight*(Desired_joint_positions - actual_joint_positions))^2 as described in 
      *  A. Liegeois. Automatic supervisory control of the configuration and 
-     * behavior of multibody mechnisms. IEEE Transactions on Systems, Man, and 
+     * behavior of multibody mechanisms. IEEE Transactions on Systems, Man, and 
      * Cybernetics, 7(12):868–871, 1977
      *
      * @ingroup KinematicFamily
@@ -60,7 +60,7 @@ namespace KDL
          * @param alpha the null-space velocity gain
          *
          */
-        ChainIkSolverVel_pinv_nso(const Chain& chain, JntArray opt_pos, JntArray weights, double eps=0.00001,int maxiter=150, double alpha = 0.25);
+        ChainIkSolverVel_pinv_nso(const Chain& chain, const JntArray& opt_pos, const JntArray& weights, double eps=0.00001,int maxiter=150, double alpha = 0.25);
         explicit ChainIkSolverVel_pinv_nso(const Chain& chain, double eps=0.00001,int maxiter=150, double alpha = 0.25);
         ~ChainIkSolverVel_pinv_nso();
 
@@ -71,48 +71,89 @@ namespace KDL
          */
         virtual int CartToJnt(const JntArray& q_init, const FrameVel& v_in, JntArrayVel& q_out){return -1;};
 
+        /**
+         * Request the joint weights for optimization criterion
+         *
+         *
+         * @return const reference to the joint weights
+         */
+        const JntArray& getWeights()const
+        {
+            return weights;
+        }
 
-	/**
-	 *Set joint weights for optimization criterion
-	 *
-	 *@param weights the joint weights
-	 *
-	 */
-	virtual int setWeights(const JntArray &weights);
+        /**
+         * Request the optimal joint positions
+         *
+         *
+         * @return const reference to the optimal joint positions
+         */
+        const JntArray& getOptPos()const
+        {
+            return opt_pos;
+        }
 
-	/**
-	 *Set optimal joint positions
-	 *
-	 *@param opt_pos optimal joint positions
-	 *
-	 */
-	virtual int setOptPos(const JntArray &opt_pos);
+        /**
+         * Request null space velocity gain
+         *
+         *
+         * @return const reference to the null space velocity gain
+         */
+        const double& getAlpha()const
+        {
+            return alpha;
+        }
 
-	/**
-	 *Set null psace velocity gain
-	 *
-	 *@param alpha NUllspace velocity cgain
-	 *
-	 */
-	virtual int setAlpha(const double alpha);
+        /**
+         *Set joint weights for optimization criterion
+         *
+         *@param weights the joint weights
+         *
+         */
+        virtual int setWeights(const JntArray &weights);
+
+        /**
+         *Set optimal joint positions
+         *
+         *@param opt_pos optimal joint positions
+         *
+         */
+        virtual int setOptPos(const JntArray &opt_pos);
+
+        /**
+         *Set null psace velocity gain
+         *
+         *@param alpha NUllspace velocity cgain
+         *
+         */
+        virtual int setAlpha(const double alpha);
+
+        /**
+         * Retrieve the latest return code from the SVD algorithm
+         * @return 0 if CartToJnt() not yet called, otherwise latest SVD result code.
+         */
+        int getSVDResult()const {return svdResult;};
+
+        /// @copydoc KDL::SolverI::updateInternalDataStructures
+        virtual void updateInternalDataStructures();
 
     private:
-        const Chain chain;
+        const Chain& chain;
         ChainJntToJacSolver jnt2jac;
+        unsigned int nj;
         Jacobian jac;
-        SVD_HH svd;
-        std::vector<JntArray> U;
-        JntArray S;
-        std::vector<JntArray> V;
-        JntArray tmp;
-        JntArray tmp2;
+        Eigen::MatrixXd U;
+        Eigen::VectorXd S;
+        Eigen::VectorXd Sinv;
+        Eigen::MatrixXd V;
+        Eigen::VectorXd tmp;
+        Eigen::VectorXd tmp2;
         double eps;
         int maxiter;
-
-	double alpha;
-	JntArray weights;
-	JntArray opt_pos;
-	
+        int svdResult;
+        double alpha;
+        JntArray weights;
+        JntArray opt_pos;
     };
 }
 #endif
