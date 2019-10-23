@@ -60,12 +60,12 @@ public:
     (*sipCpp)(a0)=a1;
 %End
 
-    const std::string* __repr__() const;
+    const char* __repr__() const;
 %MethodCode
     std::ostringstream oss;
     oss<<(*sipCpp);
     std::string s(oss.str());
-    sipRes=&s;
+    sipRes=s.c_str();
 %End
 
     void ReverseSign();
@@ -134,12 +134,12 @@ public:
     (*sipCpp)(i,j)=a1;
 %End
 
-    const std::string* __repr__() const;
+    const char* __repr__() const;
 %MethodCode
     std::ostringstream oss;
     oss<<(*sipCpp);
     std::string s(oss.str());
-    sipRes=&s;
+    sipRes=s.c_str();
 %End
     
     void SetInverse();
@@ -238,12 +238,12 @@ public:
         (*sipCpp).M(i,j)=a1;
 %End
 
-    const std::string* __repr__() const;
+    const char* __repr__() const;
 %MethodCode
     std::ostringstream oss;
     oss<<(*sipCpp);
     std::string s(oss.str());
-    sipRes=&s;
+    sipRes=s.c_str();
 %End
 
     Frame DH_Craig1989(double a,double alpha,double d,double theta);
@@ -311,12 +311,12 @@ public:
     (*sipCpp)(a0)=a1;
 %End
 
-    const std::string* __repr__() const;
+    const char* __repr__() const;
 %MethodCode
     std::ostringstream oss;
     oss<<(*sipCpp);
     std::string s(oss.str());
-    sipRes=&s;
+    sipRes=s.c_str();
 %End
 
     static Twist Zero() /Factory/;
@@ -384,12 +384,12 @@ public:
     (*sipCpp)(a0)=a1;
 %End
 
-    const std::string* __repr__() const;
+    const char* __repr__() const;
 %MethodCode
     std::ostringstream oss;
     oss<<(*sipCpp);
     std::string s(oss.str());
-    sipRes=&s;
+    sipRes=s.c_str();
 %End
 
     static Wrench Zero() /Factory/;

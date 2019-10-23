@@ -25,33 +25,18 @@ namespace KDL
 {
     ChainIkSolverVel_pinv::ChainIkSolverVel_pinv(const Chain& _chain,double _eps,int _maxiter):
         chain(_chain),
-        nj(chain.getNrOfJoints()),
         jnt2jac(chain),
-        jac(nj),
+        jac(chain.getNrOfJoints()),
         svd(jac),
-        U(6,JntArray(nj)),
-        S(nj),
-        V(nj,JntArray(nj)),
-        tmp(nj),
+        U(6,JntArray(chain.getNrOfJoints())),
+        S(chain.getNrOfJoints()),
+        V(chain.getNrOfJoints(),JntArray(chain.getNrOfJoints())),
+        tmp(chain.getNrOfJoints()),
         eps(_eps),
         maxiter(_maxiter),
         nrZeroSigmas(0),
         svdResult(0)
     {
-    }
-
-    void ChainIkSolverVel_pinv::updateInternalDataStructures() {
-        jnt2jac.updateInternalDataStructures();
-        nj = chain.getNrOfJoints();
-        jac.resize(nj);
-        svd = SVD_HH(jac);
-        for(unsigned int i = 0 ; i < U.size(); i++)
-            U[i].resize(nj);
-        S.resize(nj);
-        V.resize(nj);
-        for(unsigned int i = 0 ; i < V.size(); i++)
-            V[i].resize(nj);
-        tmp.resize(nj);
     }
 
     ChainIkSolverVel_pinv::~ChainIkSolverVel_pinv()
@@ -61,16 +46,9 @@ namespace KDL
 
     int ChainIkSolverVel_pinv::CartToJnt(const JntArray& q_in, const Twist& v_in, JntArray& qdot_out)
     {
-        if (nj != chain.getNrOfJoints())
-            return (error = E_NOT_UP_TO_DATE);
-
-        if (nj != q_in.rows() || nj != qdot_out.rows())
-            return (error = E_SIZE_MISMATCH);
-
         //Let the ChainJntToJacSolver calculate the jacobian "jac" for
         //the current joint positions "q_in" 
-        error = jnt2jac.JntToJac(q_in,jac);
-        if (error < E_NOERROR) return error;
+        jnt2jac.JntToJac(q_in,jac);
 
         double sum;
         unsigned int i,j;
@@ -131,7 +109,7 @@ namespace KDL
 
     const char* ChainIkSolverVel_pinv::strError(const int error) const
     {
-        if (E_CONVERGE_PINV_SINGULAR == error) return "Converged put pseudo inverse of jacobian is singular.";
+        if (E_SVD_FAILED == error) return "SVD failed";
         else return SolverI::strError(error);
     }
 }

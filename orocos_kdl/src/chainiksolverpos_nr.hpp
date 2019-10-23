@@ -38,8 +38,7 @@ namespace KDL {
     class ChainIkSolverPos_NR : public ChainIkSolverPos
     {
     public:
-        static const int E_IKSOLVER_FAILED = -100; //! Child IK solver vel failed
-        static const int E_FKSOLVERPOS_FAILED = -101; //! Child FK solver failed
+        static const int E_IKSOLVER_FAILED = -100; //! Child IK solver failed
 
         /**
          * Constructor of the solver, it needs the chain, a forward
@@ -76,12 +75,8 @@ namespace KDL {
         /// @copydoc KDL::SolverI::strError()
         virtual const char* strError(const int error) const;
 
-        /// @copydoc KDL::SolverI::updateInternalDataStructures
-        virtual void updateInternalDataStructures();
     private:
-        const Chain& chain;
-
-        unsigned int nj;
+        const Chain chain;
         ChainIkSolverVel& iksolver;
         ChainFkSolverPos& fksolver;
         JntArray delta_q;

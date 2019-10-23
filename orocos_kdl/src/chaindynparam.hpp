@@ -25,7 +25,6 @@
 #include "chainidsolver_recursive_newton_euler.hpp"
 #include "articulatedbodyinertia.hpp"
 #include "jntspaceinertiamatrix.hpp"
-#include <Eigen/StdVector>
 
 namespace KDL {
 
@@ -44,7 +43,7 @@ namespace KDL {
      * (expressed in the segments reference frame) and the dynamical
      * parameters of the segments.
      */
-    class ChainDynParam : SolverI
+    class ChainDynParam
     {
     public:
         ChainDynParam(const Chain& chain, Vector _grav);
@@ -54,11 +53,8 @@ namespace KDL {
 	virtual int JntToMass(const JntArray &q, JntSpaceInertiaMatrix& H);
 	virtual int JntToGravity(const JntArray &q,JntArray &gravity);
 
-    /// @copydoc KDL::SolverI::updateInternalDataStructures()
-    virtual void updateInternalDataStructures();
-
     private:
-        const Chain& chain;
+        const Chain chain;
 	int nr;
 	unsigned int nj;
         unsigned int ns;	
@@ -71,7 +67,7 @@ namespace KDL {
         std::vector<Frame> X;
         std::vector<Twist> S;
         //std::vector<RigidBodyInertia> I;
-        std::vector<ArticulatedBodyInertia, Eigen::aligned_allocator<ArticulatedBodyInertia> > Ic;
+        std::vector<ArticulatedBodyInertia> Ic;
         Wrench F;
         Twist ag;
 	

@@ -69,13 +69,10 @@ private:
     typedef Eigen::Matrix<ScalarType,Eigen::Dynamic,1> VectorXq;
 public:
 
-    static const int E_GRADIENT_JOINTS_TOO_SMALL = -100;
-    static const int E_INCREMENT_JOINTS_TOO_SMALL = -101;
-
     /**
 	 * \brief constructs an ChainIkSolverPos_LMA solver.
 	 *
-	 * The default parameters are chosen to be applicable to industrial-size robots
+	 * The default parameters are choosen to be applicable to industrial-size robots
 	 * (e.g. 0.5 to 3 meters range in task space), with an accuracy that is more then
 	 * sufficient for typical industrial applications.
 	 *
@@ -118,10 +115,10 @@ public:
      * \param q_init initial joint position.
      * \param T_base_goal goal position expressed with respect to the robot base.
      * \param q_out  joint position that achieves the specified goal position (if successful).
-     * \return E_NOERROR if successful,
-     *         E_GRADIENT_JOINTS_TOO_SMALL the gradient of \f$ E \f$ towards the joints is to small,
-     *         E_INCREMENT_JOINTS_TOO_SMALL if joint position increments are to small,
-     *         E_MAX_ITER_EXCEEDED if number of iterations is exceeded.
+     * \return 0 if successful,
+     *        -1 the gradient of \f$ E \f$ towards the joints is to small,
+     *        -2 if joint position increments are to small,
+     *        -3 if number of iterations is exceeded.
      */
     virtual int CartToJnt(const KDL::JntArray& q_init, const KDL::Frame& T_base_goal, KDL::JntArray& q_out);
 
@@ -150,16 +147,8 @@ public:
      */
     void display_jac(const KDL::JntArray& jval);
 
-    /// @copydoc KDL::SolverI::updateInternalDataStructures
-    void updateInternalDataStructures();
 
-    /// @copydoc KDL::SolverI::strError()
-    virtual const char* strError(const int error) const;
 
-private:
-    const KDL::Chain& chain;
-    unsigned int nj;
-    unsigned int ns;
 
 public:
 
@@ -215,11 +204,13 @@ public:
     bool display_information;
 private:
     // additional specification of the inverse position kinematics problem:
+
+
     unsigned int maxiter;
     double eps;
     double eps_joints;
     Eigen::Matrix<ScalarType,6,1> L;
-
+    const KDL::Chain& chain;
 
 
     // state of compute_fwdpos and compute_jacobian:

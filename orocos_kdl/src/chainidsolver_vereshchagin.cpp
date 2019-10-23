@@ -43,21 +43,13 @@ ChainIdSolver_Vereshchagin::ChainIdSolver_Vereshchagin(const Chain& chain_, Twis
     tmpm = VectorXd::Ones(nc);
 }
 
-void ChainIdSolver_Vereshchagin::updateInternalDataStructures() {
-    ns = chain.getNrOfSegments();
-    results.resize(ns+1,segment_info(nc));
-}
-
 int ChainIdSolver_Vereshchagin::CartToJnt(const JntArray &q, const JntArray &q_dot, JntArray &q_dotdot, const Jacobian& alfa, const JntArray& beta, const Wrenches& f_ext, JntArray &torques)
 {
-    nj = chain.getNrOfJoints();
-    if(ns != chain.getNrOfSegments())
-        return (error = E_NOT_UP_TO_DATE);
     //Check sizes always
     if (q.rows() != nj || q_dot.rows() != nj || q_dotdot.rows() != nj || torques.rows() != nj || f_ext.size() != ns)
-        return (error = E_SIZE_MISMATCH);
+        return -1;
     if (alfa.columns() != nc || beta.rows() != nc)
-        return (error = E_SIZE_MISMATCH);
+        return -2;
     //do an upward recursion for position and velocities
     this->initial_upwards_sweep(q, q_dot, q_dotdot, f_ext);
     //do an inward recursion for inertia, forces and constraints
@@ -66,7 +58,7 @@ int ChainIdSolver_Vereshchagin::CartToJnt(const JntArray &q, const JntArray &q_d
     this->constraint_calculation(beta);
     //do an upward recursion to propagate the result
     this->final_upwards_sweep(q_dotdot, torques);
-    return (error = E_NOERROR);
+    return 0;
 }
 
 void ChainIdSolver_Vereshchagin::initial_upwards_sweep(const JntArray &q, const JntArray &qdot, const JntArray &qdotdot, const Wrenches& f_ext)
@@ -99,7 +91,7 @@ void ChainIdSolver_Vereshchagin::initial_upwards_sweep(const JntArray &q, const 
         //Put Z in the joint root reference frame:
         s.Z = s.F * s.Z;
 
-        //The total velocity of the segment expressed in the segments reference frame (tip)
+        //The total velocity of the segment expressed in the the segments reference frame (tip)
         if (i != 0)
         {
             s.v = s.F.Inverse(results[i].v) + vj; // recursive velocity of each link in segment frame
@@ -228,7 +220,7 @@ void ChainIdSolver_Vereshchagin::downwards_sweep(const Jacobian& alfa, const Jnt
             s.PC = s.P * s.C;
 
             //u=(Q-Z(R+PC)=sum of external forces along the joint axes,
-            //R are the forces coming from the children,
+            //R are the forces comming from the children,
             //Q is taken zero (do we need to take the previous calculated torques?
 
             //projection of coriolis and centrepital forces into joint subspace (0 0 Z)
@@ -396,7 +388,7 @@ void ChainIdSolver_Vereshchagin::getJointBiasAcceleration(JntArray& bias_q_dotdo
     {
         //this is only force
         double tmp = results[i + 1].totalBias;
-        //this is acceleration
+        //this is accelleration
         bias_q_dotdot(i) = tmp / results[i + 1].D;
 
         //s.totalBias = - dot(s.Z, s.R + s.PC);
@@ -444,7 +436,7 @@ void ChainIdSolver_Vereshchagin::getJointNullSpaceAcceleration(JntArray& nullspa
 
 //This is not only a bias force energy but also includes generalized forces
 //change type of parameter G
-//this method should return array of G's
+//this method should retur array of G's
 
 void ChainIdSolver_Vereshchagin::getLinkBiasForceAcceleratoinEnergy(Eigen::VectorXd& G)
 {
@@ -461,7 +453,7 @@ void ChainIdSolver_Vereshchagin::getLinkBiasForceAcceleratoinEnergy(Eigen::Vecto
 
 }
 
-//this method should return array of R's
+//this method should retur array of R's
 
 void ChainIdSolver_Vereshchagin::getLinkBiasForceMatrix(Wrenches& R_tilde)
 {

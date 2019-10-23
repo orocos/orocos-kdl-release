@@ -87,16 +87,10 @@ namespace KDL {
 
     double Vector2::Norm() const
     {
-        double tmp1 = fabs(data[0]);
-        double tmp2 = fabs(data[1]);
-        
-        if (tmp1 == 0.0 && tmp2 == 0.0)
-            return 0.0;
-
-        if (tmp1 > tmp2) {
-            return tmp1*sqrt(1+sqr(data[1]/data[0]));
+        if (fabs(data[0]) > fabs(data[1]) ) {
+            return data[0]*sqrt(1+sqr(data[1]/data[0]));
         } else {
-            return tmp2*sqrt(1+sqr(data[0]/data[1]));
+            return data[1]*sqrt(1+sqr(data[0]/data[1]));
         }
     }
     // makes v a unitvector and returns the norm of v.
@@ -348,10 +342,10 @@ Vector Rotation::GetRot() const
 
 /** Returns the rotation angle around the equiv. axis
  * @param axis the rotation axis is returned in this variable
- * @param eps :  in the case of angle == 0 : rot axis is undefined and chosen
+ * @param eps :  in the case of angle == 0 : rot axis is undefined and choosen
  *                                         to be the Z-axis
  *               in the case of angle == PI : 2 solutions, positive Z-component
- *                                            of the axis is chosen.
+ *                                            of the axis is choosen.
  * @result returns the rotation angle (between [0..PI] )
  * /todo :
  *   Check corresponding routines in rframes and rrframes
@@ -397,50 +391,23 @@ double Rotation::GetRotAngle(Vector& axis,double eps) const {
         if ((xx > yy) && (xx > zz))
         {
             // data[0] is the largest diagonal term
-            if (xx < epsilon)
-            {
-                x = 0;
-                y = half_sqrt_2;
-                z = half_sqrt_2;
-            }
-            else
-            {
-                x = sqrt(xx);
-                y = xy/x;
-                z = xz/x;
-            }
+            x = sqrt(xx);
+            y = xy/x;
+            z = xz/x;
         }
         else if (yy > zz)
         {
             // data[4] is the largest diagonal term
-            if (yy < epsilon)
-            {
-                x = half_sqrt_2;
-                y = 0;
-                z = half_sqrt_2;
-            }
-            else
-            {
-                y = sqrt(yy);
-                x = xy/y;
-                z = yz/y;
-            }
+            y = sqrt(yy);
+            x = xy/y;
+            z = yz/y;
         }
         else
         {
             // data[8] is the largest diagonal term so base result on this
-            if (zz < epsilon)
-            {
-                x = half_sqrt_2;
-                y = half_sqrt_2;
-                z = 0;
-            }
-            else
-            {
-                z = sqrt(zz);
-                x = xz/z;
-                y = yz/z;
-            }
+            z = sqrt(zz);
+            x = xz/z;
+            y = yz/z;
         }
         axis = KDL::Vector(x, y, z);
         return angle; // return 180 deg rotation

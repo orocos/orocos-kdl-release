@@ -24,7 +24,6 @@ namespace KDL
     class ChainIkSolverVel_pinv_givens : public ChainIkSolverVel
     {
     public:
-
         /**
          * Constructor of the solver
          *
@@ -44,14 +43,9 @@ namespace KDL
          * not (yet) implemented.
          *
          */
-        virtual int CartToJnt(const JntArray& q_init, const FrameVel& v_in, JntArrayVel& q_out){return (error = E_NOT_IMPLEMENTED);};
-
-        /// @copydoc KDL::SolverI::updateInternalDataStructures
-        virtual void updateInternalDataStructures();
-
+        virtual int CartToJnt(const JntArray& q_init, const FrameVel& v_in, JntArrayVel& q_out){return -1;};
     private:
-        const Chain& chain;
-        unsigned int nj;
+        const Chain chain;
         ChainJntToJacSolver jnt2jac;
         Jacobian jac;
         bool transpose,toggle;

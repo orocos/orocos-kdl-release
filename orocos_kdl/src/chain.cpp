@@ -70,11 +70,6 @@ namespace KDL {
         return segments[nr];
     }
 
-    Segment& Chain::getSegment(unsigned int nr)
-    {
-        return segments[nr];
-    }
-
     Chain::~Chain()
     {
     }

@@ -4,7 +4,7 @@
  *      ORO_Geometry V0.2
  *   
  *  @par history
- *   - changed layout of the comments to accommodate doxygen
+ *   - changed layout of the comments to accomodate doxygen
  */
  
 #include "utility.h"

@@ -42,27 +42,12 @@ namespace KDL {
         ag=-Twist(grav,Vector::Zero());
     }
 
-    void ChainDynParam::updateInternalDataStructures() {
-        nj = chain.getNrOfJoints();
-        ns = chain.getNrOfSegments();
-        jntarraynull.resize(nj);
-        chainidsolver_coriolis.updateInternalDataStructures();
-        chainidsolver_gravity.updateInternalDataStructures();
-        wrenchnull.resize(ns,Wrench::Zero());
-        X.resize(ns);
-        S.resize(ns);
-        Ic.resize(ns);
-    }
-
-
     //calculate inertia matrix H
     int ChainDynParam::JntToMass(const JntArray &q, JntSpaceInertiaMatrix& H)
     {
-        if(nj != chain.getNrOfJoints() || ns != chain.getNrOfSegments())
-            return (error = E_NOT_UP_TO_DATE);
 	//Check sizes when in debug mode
         if(q.rows()!=nj || H.rows()!=nj || H.columns()!=nj )
-            return (error = E_SIZE_MISMATCH);
+            return -1;
         unsigned int k=0;
 	double q_;
 	
@@ -118,19 +103,20 @@ namespace KDL {
 	  }
 
 	}
-	return (error = E_NOERROR);
+	return 0;
     }
 
     //calculate coriolis matrix C
     int ChainDynParam::JntToCoriolis(const JntArray &q, const JntArray &q_dot, JntArray &coriolis)
     {
-    //make a null matrix with the size of q_dotdot and a null wrench
+	//make a null matrix with the size of q_dotdot and a null wrench
 	SetToZero(jntarraynull);
 
 	
 	//the calculation of coriolis matrix C
-	return chainidsolver_coriolis.CartToJnt(q, q_dot, jntarraynull, wrenchnull, coriolis);
+	chainidsolver_coriolis.CartToJnt(q, q_dot, jntarraynull, wrenchnull, coriolis);
 	
+	return 0;
     }
 
     //calculate gravity matrix G
@@ -141,7 +127,8 @@ namespace KDL {
 	
 	SetToZero(jntarraynull);
 	//the calculation of coriolis matrix C
-	return chainidsolver_gravity.CartToJnt(q, jntarraynull, jntarraynull, wrenchnull, gravity);
+	chainidsolver_gravity.CartToJnt(q, jntarraynull, jntarraynull, wrenchnull, gravity);
+	return 0;
     }
 
     ChainDynParam::~ChainDynParam()

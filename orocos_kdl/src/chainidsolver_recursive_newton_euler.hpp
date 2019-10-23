@@ -59,11 +59,8 @@ namespace KDL{
          */
         int CartToJnt(const JntArray &q, const JntArray &q_dot, const JntArray &q_dotdot, const Wrenches& f_ext,JntArray &torques);
 
-        /// @copydoc KDL::SolverI::updateInternalDataStructures
-        virtual void updateInternalDataStructures();
-
     private:
-        const Chain& chain;
+        Chain chain;
         unsigned int nj;
         unsigned int ns;
         std::vector<Frame> X;

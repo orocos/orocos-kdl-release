@@ -26,8 +26,6 @@
 #include "frames.hpp"
 #include "articulatedbodyinertia.hpp"
 
-#include<Eigen/StdVector>
-
 namespace KDL
 {
 /**
@@ -37,7 +35,7 @@ namespace KDL
  * to the chain's end-effector (task space/cartesian space).
  */
 
-class ChainIdSolver_Vereshchagin : KDL::SolverI
+class ChainIdSolver_Vereshchagin
 {
     typedef std::vector<Twist> Twists;
     typedef std::vector<Frame> Frames;
@@ -68,13 +66,9 @@ public:
      * Output parameters:
      * \param q_dotdot The joint accelerations
      * \param torques the resulting constraint torques for the joints
-     *
-     * @return error/success code
      */
     int CartToJnt(const JntArray &q, const JntArray &q_dot, JntArray &q_dotdot, const Jacobian& alfa, const JntArray& beta, const Wrenches& f_ext, JntArray &torques);
 
-    /// @copydoc KDL::SolverI::updateInternalDataStructures
-    virtual void updateInternalDataStructures();
     /*
     //Returns cartesian positions of links in base coordinates
     void getLinkCartesianPose(Frames& x_base);
@@ -82,7 +76,7 @@ public:
     void getLinkCartesianVelocity(Twists& xDot_base);
     //Returns cartesian acceleration of links in base coordinates
     void getLinkCartesianAcceleration(Twists& xDotDot_base);
-    //Returns cartesian positions of links in link tip coordinates
+    //Returns cartesian postions of links in link tip coordinates
     void getLinkPose(Frames& x_local);
     //Returns cartesian velocities of links in link tip coordinates
     void getLinkVelocity(Twists& xDot_local);
@@ -122,7 +116,7 @@ private:
     void final_upwards_sweep(JntArray &q_dotdot, JntArray &torques);
 
 private:
-    const Chain& chain;
+    Chain chain;
     unsigned int nj;
     unsigned int ns;
     unsigned int nc;
@@ -185,7 +179,7 @@ private:
         };
     };
 
-    std::vector<segment_info, Eigen::aligned_allocator<segment_info> > results;
+    std::vector<segment_info> results;
 
 };
 }
